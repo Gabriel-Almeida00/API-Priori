@@ -1,6 +1,6 @@
 ﻿namespace API_Priori.Models;
 
-public class Consultore
+public class Consultor
 {
     public int ConsultorId { get; set; }
     public string? Nome { get; set; }
