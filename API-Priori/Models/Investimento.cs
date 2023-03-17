@@ -6,10 +6,10 @@ public class Investimento
     public int RiscoInvestimentoId { get; set; }
     public string? Nome { get; set; }
     public string? TipoInvestimento { get; set; }
-    public int RentabilidadeFixa { get; set; }
-    public int RentabilidadeVariavel { get; set; }
+    public double RentabilidadeFixa { get; set; }
+    public double RentabilidadeVariavel { get; set; }
     public DateTime DataAtualizacao { get; set; }
     public DateTime Vencimento { get; set; }
-    public int ValorMinimo { get; set; }
+    public double ValorMinimo { get; set; }
     public int TempoMinimo { get; set; }
 }
