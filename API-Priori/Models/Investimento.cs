@@ -1,9 +1,16 @@
-﻿namespace API_Priori.Models;
+﻿using System.Collections.ObjectModel;
+
+namespace API_Priori.Models;
 
 public class Investimento
 {
+    public Investimento()
+    {
+        Atualizacoes = new Collection<Atualizacao>();
+    }
+
     public int InvestimentoId { get; set; }
-    public int RiscoInvestimentoId { get; set; }
+    public int RiscoInvestimento { get; set; }
     public string? Nome { get; set; }
     public string? TipoInvestimento { get; set; }
     public double RentabilidadeFixa { get; set; }
@@ -12,4 +19,6 @@ public class Investimento
     public DateTime Vencimento { get; set; }
     public double ValorMinimo { get; set; }
     public int TempoMinimo { get; set; }
+
+    public ICollection<Atualizacao> Atualizacoes { get; set; }
 }
