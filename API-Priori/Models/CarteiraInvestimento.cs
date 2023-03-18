@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_Priori.Models;
 
@@ -12,11 +15,20 @@ public class CarteiraInvestimento
     public int InvestimentoId { get; set; }
     public Investimento? Investimento { get; set; }
 
-    public double RentabilidadeFixa { get; set; }
-    public double RentabilidadeVariavel { get; set; }
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeFixa { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeVariavel { get; set; }
     public DateTime DataEfetuacao { get; set; }
-    public Double ValorAplicado { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal ValorAplicado { get; set; }
     public DateTime DataEncerramento { get; set; }
+
+    [StringLength(80)]
     public string? Status { get; set; }
-    public double Saldo { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal Saldo { get; set; }
 }

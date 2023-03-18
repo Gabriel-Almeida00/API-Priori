@@ -1,4 +1,7 @@
-﻿namespace API_Priori.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API_Priori.Models;
 
 public class Atualizacao
 {
@@ -11,9 +14,17 @@ public class Atualizacao
     public Investimento? Investimento { get; set; }
 
     public DateTime DataAtualizacao { get; set; }
-    public double RentabilidadeFixaAntiga { get; set; }
-    public double RentabilidadeFixaAtual { get; set; }
-    public double RentabilidadeVariavelAntiga { get; set; }
-    public double RentabilidadeVariavelAtual { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeFixaAntiga { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeFixaAtual { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeVariavelAntiga { get; set; }
+
+    [Column(TypeName = "decimal(8,4")]
+    public decimal RentabilidadeVariavelAtual { get; set; }
 
 }
