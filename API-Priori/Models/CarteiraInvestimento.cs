@@ -7,28 +7,36 @@ namespace API_Priori.Models;
 
 public class CarteiraInvestimento
 {
+    [Column("id_efetuacao")]
     public int CarteiraInvestimentoId { get; set; }
 
+    [Column("id_cliente_carteira")]
     public int ClienteId { get; set; }
     public Cliente? Cliente { get; set; }
 
+    [Column("id_investimento")]
     public int InvestimentoId { get; set; }
     public Investimento? Investimento { get; set; }
 
-    [Column(TypeName = "decimal(8,4")]
+    [Column("rentabilidade_fixa",TypeName = "decimal(8,4")]
     public decimal RentabilidadeFixa { get; set; }
 
-    [Column(TypeName = "decimal(8,4")]
+    [Column("rentabilidade_variavel",TypeName = "decimal(8,2")]
     public decimal RentabilidadeVariavel { get; set; }
+
+    [Column("data_efetuacao")]
     public DateTime DataEfetuacao { get; set; }
 
-    [Column(TypeName = "decimal(8,4")]
+    [Column("valor_aplicado",TypeName = "decimal(8,4")]
     public decimal ValorAplicado { get; set; }
-    public DateTime DataEncerramento { get; set; }
 
-    [StringLength(80)]
+    [Column("data_encerramento")]
+    public DateTime ?DataEncerramento { get; set; }
+
+    [StringLength(10)]
+    [Column("status")]
     public string? Status { get; set; }
 
-    [Column(TypeName = "decimal(8,4")]
+    [Column("saldo",TypeName = "decimal(8,2")]
     public decimal Saldo { get; set; }
 }

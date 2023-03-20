@@ -12,29 +12,36 @@ public class Investimento
         Atualizacoes = new Collection<Atualizacao>();
     }
 
+    [Column("id_investimento")]
     public int InvestimentoId { get; set; }
 
-    [Column(TypeName = "decimal(3,0")]
+    [Column("id_riscoInvestimento",TypeName = "decimal(3,0")]
     public int RiscoInvestimento { get; set; }
 
     [StringLength(40)]
+    [Column("nome")]
     public string? Nome { get; set; }
 
     [StringLength(10)]
+    [Column("tipo_investimento")]
     public string? TipoInvestimento { get; set; }
 
-    [Column(TypeName = "decimal(8,4")]
+    [Column("rentabilidade_fixa",TypeName = "decimal(8,4")]
     public decimal RentabilidadeFixa { get; set; }
 
-    [Column(TypeName = "decimal(8,2")]
+    [Column("rentabilidade_variavel",TypeName = "decimal(8,2")]
     public decimal RentabilidadeVariavel { get; set; }
+
+    [Column("data_atualizacao")]
     public DateTime DataAtualizacao { get; set; }
+
+    [Column("vencimento")]
     public DateTime Vencimento { get; set; }
 
-    [Column(TypeName = "decimal(8,2")]
+    [Column("valor_minimo",TypeName = "decimal(8,2")]
     public decimal ValorMinimo { get; set; }
 
-    [Column(TypeName = "decimal(3,0")]
+    [Column("tempo_minimo",TypeName = "decimal(3,0")]
     public decimal TempoMinimo { get; set; }
 
     public ICollection<Atualizacao> Atualizacoes { get; set; }
