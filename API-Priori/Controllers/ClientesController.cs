@@ -27,7 +27,7 @@ namespace API_Priori.Controllers
             return cliente;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}" , Name="ObterCliente")]
         public ActionResult<Cliente> GetClienteById(int id)
         {
             var cliente = _context.tblClientes.FirstOrDefault(p => p.ClienteId == id);
@@ -36,6 +36,19 @@ namespace API_Priori.Controllers
                 return NotFound("cliente não encontrado...");
             }
             return cliente;
+        }
+
+        [HttpPost]
+        public ActionResult Post(Cliente cliente)
+        {
+            if (cliente is null)
+                return BadRequest();
+
+            _context.tblClientes.Add(cliente);
+            _context.SaveChanges();
+
+            return new CreatedAtRouteResult("ObterCliente",
+                new { id = cliente.ClienteId }, cliente);
         }
     }
 }
