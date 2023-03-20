@@ -2,6 +2,7 @@
 using API_Priori.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Priori.Controllers
 {
@@ -49,6 +50,18 @@ namespace API_Priori.Controllers
 
             return new CreatedAtRouteResult("ObterCliente",
                 new { id = cliente.ClienteId }, cliente);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Cliente cliente)
+        {
+            if (id != cliente.ClienteId)
+                return BadRequest();
+
+            _context.Entry(cliente).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(cliente);
         }
     }
 }
