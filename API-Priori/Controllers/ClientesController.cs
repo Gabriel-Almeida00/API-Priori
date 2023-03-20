@@ -63,5 +63,18 @@ namespace API_Priori.Controllers
 
             return Ok(cliente);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var cliente = _context.tblClientes.FirstOrDefault(c => c.ClienteId == id);
+            if (cliente is null)
+                return NotFound("cliente não encontrado");
+
+            _context.tblClientes.Remove(cliente);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }
