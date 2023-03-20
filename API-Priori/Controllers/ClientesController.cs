@@ -17,7 +17,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Cliente>> Get()
+        public ActionResult<IEnumerable<Cliente>> GetAllCliente()
         {
             var cliente = _context.tblClientes.ToList();
             if(cliente is null)
@@ -27,5 +27,15 @@ namespace API_Priori.Controllers
             return cliente;
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Cliente> GetClienteById(int id)
+        {
+            var cliente = _context.tblClientes.FirstOrDefault(p => p.ClienteId == id);
+            if(cliente is null)
+            {
+                return NotFound("cliente não encontrado...");
+            }
+            return cliente;
+        }
     }
 }
