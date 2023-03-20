@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Priori.Models
 {
@@ -18,6 +19,8 @@ namespace API_Priori.Models
 
         [Column("id_consultor")]
         public int ConsultorId { get; set; }
+
+        [JsonIgnore]
         public Consultor? Consultor { get; set; }
 
 

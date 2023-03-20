@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Priori.Models;
 
@@ -10,10 +11,14 @@ public class Atualizacao
 
     [Column("id_consultor")]
     public int ConsultorId { get; set; }
+
+    [JsonIgnore]
     public Consultor? Consultor { get; set; }
 
     [Column("id_investimento")]
     public int InvestimentoId { get; set; }
+
+    [JsonIgnore]
     public Investimento? Investimento { get; set; }
 
     [Column("data_atualizacao")]

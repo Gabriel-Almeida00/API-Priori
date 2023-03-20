@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Priori.Models;
 
@@ -12,10 +13,14 @@ public class CarteiraInvestimento
 
     [Column("id_cliente_carteira")]
     public int ClienteId { get; set; }
+
+    [JsonIgnore]
     public Cliente? Cliente { get; set; }
 
     [Column("id_investimento")]
     public int InvestimentoId { get; set; }
+
+    [JsonIgnore]
     public Investimento? Investimento { get; set; }
 
     [Column("rentabilidade_fixa",TypeName = "decimal(8,4")]
