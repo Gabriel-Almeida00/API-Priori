@@ -12,6 +12,8 @@ public class Investimento
         Atualizacoes = new Collection<Atualizacao>();
     }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id_investimento")]
     public int InvestimentoId { get; set; }
 

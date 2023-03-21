@@ -8,6 +8,8 @@ namespace API_Priori.Models;
 
 public class CarteiraInvestimento
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id_efetuacao")]
     public int CarteiraInvestimentoId { get; set; }
 

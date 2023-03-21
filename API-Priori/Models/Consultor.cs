@@ -7,7 +7,14 @@ namespace API_Priori.Models;
 
 public class Consultor
 {
+    public Consultor()
+    {
+        Clientes = new Collection<Cliente>();
+        Atualizacaoes = new Collection<Atualizacao>();
+    }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id_consultor")]
     public int ConsultorId { get; set; }
 

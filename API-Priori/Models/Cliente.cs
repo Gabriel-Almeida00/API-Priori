@@ -7,6 +7,8 @@ namespace API_Priori.Models
 {
     public class Cliente
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id_cliente")]
         public int ClienteId { get; set; }
 
