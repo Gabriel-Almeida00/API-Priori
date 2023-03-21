@@ -1,16 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Priori.Models;
 
 public class Consultor
 {
-    public Consultor()
-    {
-        Clientes = new Collection<Cliente>();
-        Atualizacaoes = new Collection<Atualizacao>();
-    }
 
     [Column("id_consultor")]
     public int ConsultorId { get; set; }
@@ -49,6 +45,7 @@ public class Consultor
     [Column("senha")]
     public string? Senha { get; set; }
 
-    public ICollection<Cliente> Clientes { get; set; }
-    public ICollection<Atualizacao> Atualizacaoes { get; set; }
+    public ICollection<Cliente> ?Clientes { get; set; }
+
+    public ICollection<Atualizacao> ?Atualizacaoes { get; set; }
 }
