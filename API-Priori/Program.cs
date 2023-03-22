@@ -1,4 +1,5 @@
 using API_Priori.Context;
+using API_Priori.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -10,6 +11,8 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
               options.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

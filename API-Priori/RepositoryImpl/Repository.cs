@@ -8,6 +8,11 @@ namespace API_Priori.RepositoryImpl
     public class Repository<T> : IRepository<T> where T : class
     {
         protected AppDbContext _context;
+
+        public Repository(AppDbContext contentx)
+        {
+            _context = contentx;
+        }
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
