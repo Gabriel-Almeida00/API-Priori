@@ -17,14 +17,14 @@ public class Investimento
     [Column("id_investimento")]
     public int InvestimentoId { get; set; }
 
-    [Column("id_riscoInvestimento",TypeName = "decimal(3,0")]
-    public int RiscoInvestimento { get; set; }
+    [Column("id_riscoInvestimento",TypeName = "decimal(18,0")]
+    public decimal RiscoInvestimento { get; set; }
 
     [StringLength(40)]
     [Column("nome")]
     public string? Nome { get; set; }
 
-    [StringLength(10)]
+    [StringLength(5)]
     [Column("tipo_investimento")]
     public string? TipoInvestimento { get; set; }
 
@@ -38,6 +38,7 @@ public class Investimento
     public DateTime DataAtualizacao { get; set; }
 
     [Column("vencimento")]
+    [DataType((DataType.Date))]
     public DateTime Vencimento { get; set; }
 
     [Column("valor_minimo",TypeName = "decimal(8,2")]
