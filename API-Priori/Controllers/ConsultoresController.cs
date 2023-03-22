@@ -1,5 +1,6 @@
 ﻿using API_Priori.Context;
 using API_Priori.Models;
+using API_Priori.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,17 +11,16 @@ namespace API_Priori.Controllers
     [ApiController]
     public class ConsultoresController : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public ConsultoresController(AppDbContext context)
+        private readonly IUnitOfWork _uof;
+        public ConsultoresController(IUnitOfWork contexto)
         {
-            _context = context;
+            _uof = contexto;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Consultor>> GetAllConsultores()
         {
-            var consultores = _context.tblConsultores.ToList();
+            var consultores = _uof.ConsultorRepository.GetAll().ToList();
             if (consultores is null)
                 return NotFound("Consultor não encontrado");
 
@@ -30,7 +30,7 @@ namespace API_Priori.Controllers
         [HttpGet("{id}",Name = "ObterConsultor")]
         public ActionResult<Consultor> GetConsultorById (int id)
         {
-            var consultor = _context.tblConsultores.FirstOrDefault(c => c.ConsultorId == id);
+            var consultor = _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
             if (consultor is null)
                 return NotFound("Consultor não encontrado");
 
@@ -44,8 +44,8 @@ namespace API_Priori.Controllers
             {
                 return BadRequest();
             }
-            _context.tblConsultores.Add(consultor);
-            _context.SaveChanges();
+            _uof.ConsultorRepository.Add(consultor);
+            _uof.Commit();
 
             return new CreatedAtRouteResult("ObterConsultor", 
                 new { id = consultor.ConsultorId }, consultor);
@@ -57,8 +57,8 @@ namespace API_Priori.Controllers
             if (id != consultor.ConsultorId)
                 return BadRequest();
 
-            _context.Entry(consultor).State = EntityState.Modified;
-            _context.SaveChanges();
+            _uof.ConsultorRepository.Update(consultor);
+            _uof.Commit();
 
             return Ok(consultor);
         }
@@ -66,12 +66,12 @@ namespace API_Priori.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var consultor = _context.tblConsultores.FirstOrDefault(c => c.ConsultorId == id);
+            var consultor = _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
             if (consultor is null)
                 return NotFound("cliente não encontrado");
 
-            _context.tblConsultores.Remove(consultor);
-            _context.SaveChanges();
+            _uof.ConsultorRepository.Delete(consultor);
+            _uof.Commit();
 
             return Ok();
         }
