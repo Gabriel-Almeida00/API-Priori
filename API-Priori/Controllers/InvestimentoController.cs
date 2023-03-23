@@ -1,5 +1,7 @@
-﻿using API_Priori.Models;
+﻿using API_Priori.DTOs;
+using API_Priori.Models;
 using API_Priori.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,50 +12,62 @@ namespace API_Priori.Controllers
     public class InvestimentoController : ControllerBase
     {
         private readonly IUnitOfWork _uof;
+        private readonly IMapper _mapper;
 
-        public InvestimentoController(IUnitOfWork context)
+        public InvestimentoController(IUnitOfWork context, IMapper mapper)
         {
             _uof = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Investimento>> GetAllInvestimentos()
+        public ActionResult<IEnumerable<InvestimentoDTO>> GetAllInvestimentos()
         {
             var investimento = _uof.InvestimentoRepository.GetAll().ToList();
             if (investimento is null)
                 return NotFound();
 
-            return investimento;
+            var investimentoDTO = _mapper.Map<List<InvestimentoDTO>>(investimento);
+
+            return investimentoDTO;
         }
 
         [HttpGet("{id}", Name = "ObterInvestimento")]
-        public ActionResult<Investimento> GetinvestimentoById(int id)
+        public ActionResult<InvestimentoDTO> GetinvestimentoById(int id)
         {
             var investimento = _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
             if (investimento is null)
                 return NotFound();
 
-            return investimento;
+            var investimentoDTO = _mapper.Map<InvestimentoDTO>(investimento);
+
+            return investimentoDTO;
         }
 
         [HttpPost]
-        public ActionResult Post(Investimento investimento)
+        public ActionResult Post(InvestimentoDTO investimentoDto)
         {
-            if (investimento is null)
+            if (investimentoDto is null)
                 return BadRequest();
+
+            var investimento = _mapper.Map<Investimento>(investimentoDto);
 
             _uof.InvestimentoRepository.Add(investimento);
             _uof.Commit();
 
+            var investimentoDTO = _mapper.Map<InvestimentoDTO>(investimento);
+
             return new CreatedAtRouteResult("ObterInvestimento",
-                new { id = investimento.InvestimentoId }, investimento); 
+                new { id = investimento.InvestimentoId }, investimentoDTO); 
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, Investimento investimento)
+        public ActionResult Put(int id, InvestimentoDTO investimentoDto)
         {
-            if (id != investimento.InvestimentoId)
+            if (id != investimentoDto.InvestimentoId)
                 return BadRequest();
+
+            var investimento = _mapper.Map<Investimento>(investimentoDto);
 
             _uof.InvestimentoRepository.Update(investimento);
             _uof.Commit();
@@ -62,7 +76,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult<InvestimentoDTO> Delete(int id)
         {
             var investimento = _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
             if (investimento is null)
@@ -70,6 +84,8 @@ namespace API_Priori.Controllers
 
             _uof.InvestimentoRepository.Delete(investimento);
             _uof.Commit();
+
+            var investimentoDto = _mapper.Map<InvestimentoDTO>(investimento);
 
             return Ok();
         }

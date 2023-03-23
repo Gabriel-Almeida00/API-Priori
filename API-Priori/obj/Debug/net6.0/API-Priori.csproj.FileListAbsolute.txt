@@ -58,3 +58,5 @@ C:\workspace-visual-studio-code\API-Priori\API-Priori\obj\Debug\net6.0\refint\AP
 C:\workspace-visual-studio-code\API-Priori\API-Priori\obj\Debug\net6.0\API-Priori.pdb
 C:\workspace-visual-studio-code\API-Priori\API-Priori\obj\Debug\net6.0\API-Priori.genruntimeconfig.cache
 C:\workspace-visual-studio-code\API-Priori\API-Priori\obj\Debug\net6.0\ref\API-Priori.dll
+C:\workspace-visual-studio-code\API-Priori\API-Priori\bin\Debug\net6.0\AutoMapper.dll
+C:\workspace-visual-studio-code\API-Priori\API-Priori\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

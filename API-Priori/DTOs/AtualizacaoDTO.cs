@@ -9,9 +9,8 @@ namespace API_Priori.DTOs
         public int AtualizacaoId { get; set; }
 
         public int InvestimentoId { get; set; }
-
+        public int ConsultorId { get; set; }
         public DateTime DataAtualizacao { get; set; }
-
         public decimal RentabilidadeFixaAtual { get; set; }
         public decimal RentabilidadeFixaAntiga { get; set; }
         public decimal RentabilidadeVariavelAntiga { get; set; }
