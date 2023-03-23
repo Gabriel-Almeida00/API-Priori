@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using API_Priori.Models;
 
 namespace API_Priori.DTOs
 {
@@ -25,5 +26,7 @@ namespace API_Priori.DTOs
         public decimal ValorMinimo { get; set; }
 
         public decimal TempoMinimo { get; set; }
+        public ICollection<Atualizacao> ?Atualizacoes { get; set; }
+
     }
 }

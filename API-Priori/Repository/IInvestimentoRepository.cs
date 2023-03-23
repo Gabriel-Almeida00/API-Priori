@@ -4,5 +4,6 @@ namespace API_Priori.Repository
 {
     public interface IInvestimentoRepository : IRepository<Investimento>
     {
+        IEnumerable<Investimento> GetInvestimentosByAtualizacao();
     }
 }

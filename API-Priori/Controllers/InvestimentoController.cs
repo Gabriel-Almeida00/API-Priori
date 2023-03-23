@@ -20,6 +20,15 @@ namespace API_Priori.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("atualizacoes")]
+        public ActionResult<List<InvestimentoDTO>> GetInvestimentoByAtualizacao()
+        {
+            var investimento = _uof.InvestimentoRepository.GetInvestimentosByAtualizacao().ToList();
+            var investimentoDTO = _mapper.Map<List<InvestimentoDTO>>(investimento);
+
+            return investimentoDTO;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<InvestimentoDTO>> GetAllInvestimentos()
         {

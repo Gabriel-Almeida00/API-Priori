@@ -47,5 +47,4 @@ public class CarteiraInvestimento
     [Column("saldo",TypeName = "decimal(8,2")]
     public decimal Saldo { get; set; }
 
-   public ICollection<Investimento> ?Investimentos { get; set; }
 }
