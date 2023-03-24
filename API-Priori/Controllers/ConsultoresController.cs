@@ -1,11 +1,13 @@
 ﻿using API_Priori.Context;
 using API_Priori.DTOs;
 using API_Priori.Models;
+using API_Priori.Pagination.PaginationImpl;
 using API_Priori.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace API_Priori.Controllers
 {
@@ -22,11 +24,23 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ConsultorDTO>> GetAllConsultores()
+        public ActionResult<IEnumerable<ConsultorDTO>> GetAllConsultores([FromQuery] ConsultorParameters consultorParameters) 
         {
-            var consultores = _uof.ConsultorRepository.GetAll().ToList();
+            var consultores = _uof.ConsultorRepository.GetConsultors(consultorParameters);
             if (consultores is null)
                 return NotFound("Consultor não encontrado");
+
+            var metadata = new
+            {
+                consultores.TotalCount,
+                consultores.PageSize,
+                consultores.CurrentPage,
+                consultores.TotalPage,
+                consultores.HasNext,
+                consultores.HasPrevius
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
             var consultorDTO = _mapper.Map<List<ConsultorDTO>>(consultores);
 

@@ -1,11 +1,13 @@
 ﻿using API_Priori.Context;
 using API_Priori.DTOs;
 using API_Priori.Models;
+using API_Priori.Pagination.PaginationImpl;
 using API_Priori.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace API_Priori.Controllers
 {
@@ -22,11 +24,24 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ClienteDTO>> GetAllCliente()
+        public ActionResult<IEnumerable<ClienteDTO>> GetAllCliente([FromQuery] ClienteParameters clienteParameters)
         {
-            var cliente = _uof.ClienteRepository.GetAll().ToList();
+            var cliente = _uof.ClienteRepository.GetClientes(clienteParameters);
             if(cliente is null)
                 return NotFound("Cliente não encontrado");
+
+
+            var metadata = new
+            {
+                cliente.TotalCount,
+                cliente.PageSize,
+                cliente.CurrentPage,
+                cliente.TotalPage,
+                cliente.HasNext,
+                cliente.HasPrevius
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
             var clienteDTO = _mapper.Map<List<ClienteDTO>>(cliente);
             

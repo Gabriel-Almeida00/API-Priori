@@ -1,9 +1,11 @@
 ﻿using API_Priori.DTOs;
 using API_Priori.Models;
+using API_Priori.Pagination.PaginationImpl;
 using API_Priori.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace API_Priori.Controllers
 {
@@ -30,11 +32,23 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<InvestimentoDTO>> GetAllInvestimentos()
+        public ActionResult<IEnumerable<InvestimentoDTO>> GetAllInvestimentos([FromQuery] InvestimentoParameters investimentoParameters)
         {
-            var investimento = _uof.InvestimentoRepository.GetAll().ToList();
+            var investimento = _uof.InvestimentoRepository.GetInvestimentos(investimentoParameters);
             if (investimento is null)
                 return NotFound();
+
+            var metadata = new
+            {
+                investimento.TotalCount,
+                investimento.PageSize,
+                investimento.CurrentPage,
+                investimento.TotalPage,
+                investimento.HasNext,
+                investimento.HasPrevius
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
             var investimentoDTO = _mapper.Map<List<InvestimentoDTO>>(investimento);
 

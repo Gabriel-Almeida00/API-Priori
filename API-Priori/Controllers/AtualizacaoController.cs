@@ -1,9 +1,11 @@
 ﻿using API_Priori.DTOs;
 using API_Priori.Models;
+using API_Priori.Pagination.PaginationImpl;
 using API_Priori.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace API_Priori.Controllers
 {
@@ -21,11 +23,23 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AtualizacaoDTO>> GetAll()
+        public ActionResult<IEnumerable<AtualizacaoDTO>> GetAll([FromQuery] AtualizacaoParameters atualizacaoParameters)
         {
-            var atualizcao = _uof.AtualizacaoRepository.GetAll().ToList();
+            var atualizcao = _uof.AtualizacaoRepository.GetAtualizacaos(atualizacaoParameters);
             if (atualizcao is null)
                 return NotFound("Atualização não encontrada");
+
+            var metadata = new
+            {
+                atualizcao.TotalCount,
+                atualizcao.PageSize,
+                atualizcao.CurrentPage,
+                atualizcao.TotalPage,
+                atualizcao.HasNext,
+                atualizcao.HasPrevius
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
 
             var atualizacaoDTO = _mapper.Map<List<AtualizacaoDTO>>(atualizcao);
             return atualizacaoDTO;
