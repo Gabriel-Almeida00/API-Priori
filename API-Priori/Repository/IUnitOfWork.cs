@@ -7,6 +7,6 @@
         IClienteRepository ClienteRepository { get; }
         IConsultorRepository ConsultorRepository { get; }
         IInvestimentoRepository InvestimentoRepository { get; }
-        void Commit();
+        Task Commit();
     }
 }

@@ -5,6 +5,7 @@ using API_Priori.Pagination.PaginationImpl;
 using API_Priori.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace API_Priori.RepositoryImpl
 {
@@ -14,9 +15,9 @@ namespace API_Priori.RepositoryImpl
         {
         }
 
-        public IEnumerable<Investimento> GetInvestimentosByAtualizacao()
+        public async Task<IEnumerable<Investimento>> GetInvestimentosByAtualizacao()
         {
-            return GetAll().Include(x => x.Atualizacoes);
+            return await GetAll().Include(x => x.Atualizacoes).ToListAsync();
         }
 
         public PagedList<Investimento> GetInvestimentos(InvestimentoParameters investimentoParameters)
