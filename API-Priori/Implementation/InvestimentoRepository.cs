@@ -1,6 +1,7 @@
 ﻿using API_Priori.Context;
 using API_Priori.Models;
 using API_Priori.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Priori.RepositoryImpl
