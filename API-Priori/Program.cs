@@ -1,8 +1,10 @@
 using API_Priori.Context;
+using API_Priori.DTOs;
 using API_Priori.DTOs.Mappings;
 using API_Priori.Repository;
 using API_Priori.RepositoryImpl;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -33,6 +35,10 @@ string MySqlConnection = builder.Configuration.GetConnectionString("DefaultConne
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(MySqlConnection));
 
+builder.Services.AddIdentity<ClienteDTO>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +51,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
