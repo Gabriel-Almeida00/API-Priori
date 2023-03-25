@@ -23,9 +23,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AtualizacaoDTO>> GetAll([FromQuery] AtualizacaoParameters atualizacaoParameters)
+        public async Task<ActionResult<IEnumerable<AtualizacaoDTO>>> GetAll([FromQuery] AtualizacaoParameters atualizacaoParameters)
         {
-            var atualizcao = _uof.AtualizacaoRepository.GetAtualizacaos(atualizacaoParameters);
+            var atualizcao = await _uof.AtualizacaoRepository.GetAtualizacaos(atualizacaoParameters);
             if (atualizcao is null)
                 return NotFound("Atualização não encontrada");
 
@@ -46,9 +46,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("{id}", Name = "ObterAtualizacao")]
-        public ActionResult<AtualizacaoDTO> GetAtualizacaoById(int id)
+        public async Task<ActionResult<AtualizacaoDTO>> GetAtualizacaoById(int id)
         {
-            var atualizacao = _uof.AtualizacaoRepository.GetById(a => a.AtualizacaoId == id);
+            var atualizacao = await _uof.AtualizacaoRepository.GetById(a => a.AtualizacaoId == id);
             if (atualizacao is null)
                 return NotFound();
 
@@ -57,7 +57,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(AtualizacaoDTO atualizacaoDTO)
+        public async Task<ActionResult> Post(AtualizacaoDTO atualizacaoDTO)
         {
             if (atualizacaoDTO is null)
                 return BadRequest();
@@ -65,7 +65,7 @@ namespace API_Priori.Controllers
             var atualizacao = _mapper.Map<Atualizacao>(atualizacaoDTO);
             
             _uof.AtualizacaoRepository.Add(atualizacao);
-            _uof.Commit();
+            await _uof.Commit();
 
             var atualizacaoDto = _mapper.Map<AtualizacaoDTO>(atualizacao);
 
@@ -74,7 +74,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, AtualizacaoDTO atualizacaoDTO)
+        public async Task<ActionResult> Put(int id, AtualizacaoDTO atualizacaoDTO)
         {
           if(id != atualizacaoDTO.AtualizacaoId)
                 return BadRequest();
@@ -82,20 +82,20 @@ namespace API_Priori.Controllers
             var atualizacao = _mapper.Map<Atualizacao>(atualizacaoDTO);
 
             _uof.AtualizacaoRepository.Update(atualizacao);
-            _uof.Commit();
+            await _uof.Commit();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<AtualizacaoDTO> Delete(int id)
+        public async Task<ActionResult<AtualizacaoDTO>> Delete(int id)
         {
-            var atualizacao = _uof.AtualizacaoRepository.GetById(a => a.AtualizacaoId == id);
+            var atualizacao = await _uof.AtualizacaoRepository.GetById(a => a.AtualizacaoId == id);
             if(atualizacao is null)
                 return NotFound();
 
             _uof.AtualizacaoRepository.Delete(atualizacao);
-            _uof.Commit();
+            await _uof.Commit();
 
             var atualizacaoDto = _mapper.Map<AtualizacaoDTO>(atualizacao);
 

@@ -23,18 +23,18 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("atualizacoes")]
-        public ActionResult<List<InvestimentoDTO>> GetInvestimentoByAtualizacao()
+        public async Task<ActionResult<List<InvestimentoDTO>>> GetInvestimentoByAtualizacao()
         {
-            var investimento = _uof.InvestimentoRepository.GetInvestimentosByAtualizacao().ToList();
+            var investimento = await _uof.InvestimentoRepository.GetInvestimentosByAtualizacao();
             var investimentoDTO = _mapper.Map<List<InvestimentoDTO>>(investimento);
 
             return investimentoDTO;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<InvestimentoDTO>> GetAllInvestimentos([FromQuery] InvestimentoParameters investimentoParameters)
+        public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> GetAllInvestimentos([FromQuery] InvestimentoParameters investimentoParameters)
         {
-            var investimento = _uof.InvestimentoRepository.GetInvestimentos(investimentoParameters);
+            var investimento = await _uof.InvestimentoRepository.GetInvestimentos(investimentoParameters);
             if (investimento is null)
                 return NotFound();
 
@@ -56,9 +56,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("{id}", Name = "ObterInvestimento")]
-        public ActionResult<InvestimentoDTO> GetinvestimentoById(int id)
+        public async Task<ActionResult<InvestimentoDTO>> GetinvestimentoById(int id)
         {
-            var investimento = _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
+            var investimento = await _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
             if (investimento is null)
                 return NotFound();
 
@@ -68,7 +68,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(InvestimentoDTO investimentoDto)
+        public async Task<ActionResult> Post(InvestimentoDTO investimentoDto)
         {
             if (investimentoDto is null)
                 return BadRequest();
@@ -76,7 +76,7 @@ namespace API_Priori.Controllers
             var investimento = _mapper.Map<Investimento>(investimentoDto);
 
             _uof.InvestimentoRepository.Add(investimento);
-            _uof.Commit();
+            await _uof.Commit();
 
             var investimentoDTO = _mapper.Map<InvestimentoDTO>(investimento);
 
@@ -85,7 +85,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, InvestimentoDTO investimentoDto)
+        public async Task<ActionResult> Put(int id, InvestimentoDTO investimentoDto)
         {
             if (id != investimentoDto.InvestimentoId)
                 return BadRequest();
@@ -93,20 +93,20 @@ namespace API_Priori.Controllers
             var investimento = _mapper.Map<Investimento>(investimentoDto);
 
             _uof.InvestimentoRepository.Update(investimento);
-            _uof.Commit();
+            await _uof.Commit();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<InvestimentoDTO> Delete(int id)
+        public async Task<ActionResult<InvestimentoDTO>> Delete(int id)
         {
-            var investimento = _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
+            var investimento = await _uof.InvestimentoRepository.GetById(i => i.InvestimentoId == id);
             if (investimento is null)
                 return NotFound();
 
             _uof.InvestimentoRepository.Delete(investimento);
-            _uof.Commit();
+            await _uof.Commit();
 
             var investimentoDto = _mapper.Map<InvestimentoDTO>(investimento);
 

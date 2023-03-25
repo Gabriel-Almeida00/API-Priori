@@ -23,10 +23,10 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CarteiraInvestimentoDTO>> GetAllCarteiraInvetimento
+        public async Task<ActionResult<IEnumerable<CarteiraInvestimentoDTO>>> GetAllCarteiraInvetimento
             ([FromQuery] CarteiraInvestimentoParameters carteiraInvestimentoParameters)
         {
-            var carteira = _uof.CarteiraInvestimentoRepository.GetCarteiraInvestimentos(carteiraInvestimentoParameters);
+            var carteira = await _uof.CarteiraInvestimentoRepository.GetCarteiraInvestimentos(carteiraInvestimentoParameters);
             if(carteira is null)
                 return NotFound();
 
@@ -48,9 +48,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("{id}", Name = "ObterCarteira")]
-        public ActionResult<CarteiraInvestimentoDTO> GetCarteiraById(int id)
+        public async Task<ActionResult<CarteiraInvestimentoDTO>> GetCarteiraById(int id)
         {
-            var carteira = _uof.CarteiraInvestimentoRepository.GetById(c => c.CarteiraInvestimentoId == id);
+            var carteira = await _uof.CarteiraInvestimentoRepository.GetById(c => c.CarteiraInvestimentoId == id);
             if (carteira is null)
                 return NotFound();
 
@@ -60,7 +60,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(CarteiraInvestimentoDTO carteiraDto)
+        public async Task<ActionResult> Post(CarteiraInvestimentoDTO carteiraDto)
         {
             if (carteiraDto is null)
                 return BadRequest();
@@ -68,7 +68,7 @@ namespace API_Priori.Controllers
             var carteira = _mapper.Map<CarteiraInvestimento>(carteiraDto);
 
             _uof.CarteiraInvestimentoRepository.Add(carteira);
-            _uof.Commit();
+            await _uof.Commit();
 
             var carteiraDTO = _mapper.Map<CarteiraInvestimentoDTO>(carteira);
 
@@ -77,7 +77,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, CarteiraInvestimentoDTO carteiraDto)
+        public async Task<ActionResult> Put(int id, CarteiraInvestimentoDTO carteiraDto)
         {
             if (id != carteiraDto.CarteiraInvestimentoId)
                 return BadRequest();
@@ -85,20 +85,20 @@ namespace API_Priori.Controllers
             var carteira = _mapper.Map<CarteiraInvestimento>(carteiraDto);
 
             _uof.CarteiraInvestimentoRepository.Update(carteira);
-            _uof.Commit();
+            await _uof.Commit();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<CarteiraInvestimentoDTO> Delete(int id)
+        public async Task<ActionResult<CarteiraInvestimentoDTO>> Delete(int id)
         {
-            var carteira = _uof.CarteiraInvestimentoRepository.GetById(c => c.CarteiraInvestimentoId == id);
+            var carteira = await _uof.CarteiraInvestimentoRepository.GetById(c => c.CarteiraInvestimentoId == id);
             if (carteira is null)
                 return NotFound();
 
             _uof.CarteiraInvestimentoRepository.Delete(carteira);
-            _uof.Commit();
+            await _uof.Commit();
 
             var carteiraDTO = _mapper.Map<CarteiraInvestimentoDTO>(carteira);
 

@@ -24,9 +24,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ClienteDTO>> GetAllCliente([FromQuery] ClienteParameters clienteParameters)
+        public async Task<ActionResult<IEnumerable<ClienteDTO>>> GetAllCliente([FromQuery] ClienteParameters clienteParameters)
         {
-            var cliente = _uof.ClienteRepository.GetClientes(clienteParameters);
+            var cliente = await _uof.ClienteRepository.GetClientes(clienteParameters);
             if(cliente is null)
                 return NotFound("Cliente não encontrado");
 
@@ -49,9 +49,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("{id}" , Name="ObterCliente")]
-        public ActionResult<ClienteDTO> GetClienteById(int id)
+        public async Task<ActionResult<ClienteDTO>> GetClienteById(int id)
         {
-            var cliente = _uof.ClienteRepository.GetById(p => p.ClienteId == id);
+            var cliente = await _uof.ClienteRepository.GetById(p => p.ClienteId == id);
             if(cliente is null)
                 return NotFound("cliente não encontrado...");
 
@@ -61,7 +61,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(ClienteDTO clienteDto)
+        public async Task<ActionResult> Post(ClienteDTO clienteDto)
         {
             if (clienteDto is null)
                 return BadRequest();
@@ -69,7 +69,7 @@ namespace API_Priori.Controllers
             var cliente = _mapper.Map<Cliente>(clienteDto);
 
             _uof.ClienteRepository.Add(cliente);
-            _uof.Commit();
+            await _uof.Commit();
 
             var clienteDTO = _mapper.Map<ClienteDTO>(cliente);
 
@@ -78,7 +78,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, ClienteDTO clienteDto)
+        public async Task<ActionResult> Put(int id, ClienteDTO clienteDto)
         {
             if (id != clienteDto.ClienteId)
                 return BadRequest();
@@ -86,20 +86,20 @@ namespace API_Priori.Controllers
             var cliente = _mapper.Map<Cliente>(clienteDto);
 
             _uof.ClienteRepository.Update(cliente);
-            _uof.Commit();
+            await _uof.Commit();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<ClienteDTO> Delete(int id)
+        public async Task<ActionResult<ClienteDTO>> Delete(int id)
         {
-            var cliente = _uof.ClienteRepository.GetById(c => c.ClienteId == id);
+            var cliente = await _uof.ClienteRepository.GetById(c => c.ClienteId == id);
             if (cliente is null)
                 return NotFound("cliente não encontrado");
 
             _uof.ClienteRepository.Delete(cliente);
-            _uof.Commit();
+            await _uof.Commit();
 
             var clienteDto = _mapper.Map<ClienteDTO>(cliente);
 

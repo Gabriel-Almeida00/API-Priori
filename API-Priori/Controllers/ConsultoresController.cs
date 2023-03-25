@@ -24,9 +24,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ConsultorDTO>> GetAllConsultores([FromQuery] ConsultorParameters consultorParameters) 
+        public async Task<ActionResult<IEnumerable<ConsultorDTO>>> GetAllConsultores([FromQuery] ConsultorParameters consultorParameters) 
         {
-            var consultores = _uof.ConsultorRepository.GetConsultors(consultorParameters);
+            var consultores = await _uof.ConsultorRepository.GetConsultors(consultorParameters);
             if (consultores is null)
                 return NotFound("Consultor não encontrado");
 
@@ -48,9 +48,9 @@ namespace API_Priori.Controllers
         }
 
         [HttpGet("{id}",Name = "ObterConsultor")]
-        public ActionResult<ConsultorDTO> GetConsultorById (int id)
+        public async Task<ActionResult<ConsultorDTO>> GetConsultorById (int id)
         {
-            var consultor = _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
+            var consultor = await _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
             if (consultor is null)
                 return NotFound("Consultor não encontrado");
 
@@ -60,7 +60,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(ConsultorDTO consultorDto)
+        public async Task<ActionResult> Post(ConsultorDTO consultorDto)
         {
             if(consultorDto is null)
                 return BadRequest();
@@ -68,7 +68,7 @@ namespace API_Priori.Controllers
             var consultor = _mapper.Map<Consultor>(consultorDto);
 
             _uof.ConsultorRepository.Add(consultor);
-            _uof.Commit();
+            await _uof.Commit();
 
             var consultorDTO = _mapper.Map<ConsultorDTO>(consultor);    
 
@@ -77,7 +77,7 @@ namespace API_Priori.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, ConsultorDTO consultorDto)
+        public async Task<ActionResult> Put(int id, ConsultorDTO consultorDto)
         {
             if (id != consultorDto.ConsultorId)
                 return BadRequest();
@@ -85,20 +85,20 @@ namespace API_Priori.Controllers
             var consultor = _mapper.Map<Consultor>(consultorDto);
 
             _uof.ConsultorRepository.Update(consultor);
-            _uof.Commit();
+            await _uof.Commit();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<ConsultorDTO> Delete(int id)
+        public async Task<ActionResult<ConsultorDTO>> Delete(int id)
         {
-            var consultor = _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
+            var consultor = await _uof.ConsultorRepository.GetById(c => c.ConsultorId == id);
             if (consultor is null)
                 return NotFound("cliente não encontrado");
 
             _uof.ConsultorRepository.Delete(consultor);
-            _uof.Commit();
+            await _uof.Commit();
 
              var consultorDto = _mapper.Map<ConsultorDTO>(consultor);
 
