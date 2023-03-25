@@ -12,9 +12,9 @@ namespace API_Priori.RepositoryImpl
         {
         }
 
-        public PagedList<Consultor> GetConsultors(ConsultorParameters consultorParameters)
+        public async Task<PagedList<Consultor>> GetConsultors(ConsultorParameters consultorParameters)
         {
-            return PagedList<Consultor>.ToPagedList(GetAll().OrderBy(x => x.Nome),
+            return await PagedList<Consultor>.ToPagedList(GetAll().OrderBy(x => x.Nome),
                 consultorParameters.PageNumber,
                 consultorParameters.PageSize);
         }

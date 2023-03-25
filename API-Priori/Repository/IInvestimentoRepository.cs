@@ -6,7 +6,7 @@ namespace API_Priori.Repository
 {
     public interface IInvestimentoRepository : IRepository<Investimento>
     {
-        PagedList<Investimento> GetInvestimentos(InvestimentoParameters investimentoParameters);
+        Task<PagedList<Investimento>> GetInvestimentos(InvestimentoParameters investimentoParameters);
         Task<IEnumerable<Investimento>> GetInvestimentosByAtualizacao();
     }
 }

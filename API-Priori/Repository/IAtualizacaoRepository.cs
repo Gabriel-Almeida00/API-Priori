@@ -6,6 +6,6 @@ namespace API_Priori.Repository
 {
     public interface IAtualizacaoRepository : IRepository<Atualizacao>
     {
-        PagedList<Atualizacao> GetAtualizacaos(AtualizacaoParameters atualizacaoParameters);
+        Task<PagedList<Atualizacao>> GetAtualizacaos(AtualizacaoParameters atualizacaoParameters);
     }
 }

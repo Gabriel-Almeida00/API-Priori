@@ -20,11 +20,10 @@ namespace API_Priori.RepositoryImpl
             return await GetAll().Include(x => x.Atualizacoes).ToListAsync();
         }
 
-        public PagedList<Investimento> GetInvestimentos(InvestimentoParameters investimentoParameters)
+        public async Task<PagedList<Investimento>> GetInvestimentos(InvestimentoParameters investimentoParameters)
         {
-            return PagedList<Investimento>.ToPagedList(GetAll().OrderBy(x => x.Nome),
-                investimentoParameters.PageNumber,
-                investimentoParameters.PageSize);
+            return await PagedList<Investimento>.ToPagedList(GetAll().OrderBy(x => x.Nome),
+                investimentoParameters.PageNumber, investimentoParameters.PageSize);
         }
     }
 }

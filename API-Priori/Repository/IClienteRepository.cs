@@ -6,6 +6,6 @@ namespace API_Priori.Repository
 {
     public interface IClienteRepository : IRepository<Cliente>
     {
-        PagedList<Cliente> GetClientes(ClienteParameters clienteParameters);
+        Task<PagedList<Cliente>> GetClientes(ClienteParameters clienteParameters);
     }
 }

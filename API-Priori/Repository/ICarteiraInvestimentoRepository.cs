@@ -6,6 +6,6 @@ namespace API_Priori.Repository
 {
     public interface ICarteiraInvestimentoRepository : IRepository<CarteiraInvestimento>
     {
-        PagedList<CarteiraInvestimento> GetCarteiraInvestimentos(CarteiraInvestimentoParameters carteiraParameters);
+        Task<PagedList<CarteiraInvestimento>> GetCarteiraInvestimentos(CarteiraInvestimentoParameters carteiraParameters);
     }
 }

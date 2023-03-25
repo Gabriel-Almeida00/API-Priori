@@ -12,9 +12,9 @@ namespace API_Priori.RepositoryImpl
         {
         }
 
-        public PagedList<CarteiraInvestimento> GetCarteiraInvestimentos(CarteiraInvestimentoParameters carteiraParameters)
+        public async Task<PagedList<CarteiraInvestimento>> GetCarteiraInvestimentos(CarteiraInvestimentoParameters carteiraParameters)
         {
-            return PagedList<CarteiraInvestimento>.ToPagedList(GetAll().OrderBy(x => x.DataEfetuacao),
+            return await PagedList<CarteiraInvestimento>.ToPagedList(GetAll().OrderBy(x => x.DataEfetuacao),
                 carteiraParameters.PageNumber,
                 carteiraParameters.PageSize);
         }

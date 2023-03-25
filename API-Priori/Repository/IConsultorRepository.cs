@@ -6,6 +6,6 @@ namespace API_Priori.Repository
 {
     public interface IConsultorRepository : IRepository<Consultor>
     {
-        PagedList<Consultor> GetConsultors(ConsultorParameters consultorParameters);
+        Task<PagedList<Consultor>> GetConsultors(ConsultorParameters consultorParameters);
     }
 }
