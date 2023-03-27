@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 namespace API_Priori.DTOs
 {
-    public class ClienteDTO
+    public class ClienteDTO : IdentityUser
     {
         public int ClienteId { get; set; }
 

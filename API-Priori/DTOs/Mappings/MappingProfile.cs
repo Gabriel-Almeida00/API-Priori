@@ -12,7 +12,6 @@ namespace API_Priori.DTOs.Mappings
             CreateMap<Cliente, ClienteDTO>().ReverseMap();
             CreateMap<Consultor, ConsultorDTO>().ReverseMap();
             CreateMap<Investimento, InvestimentoDTO>().ReverseMap();
-
         }
     }
 }

@@ -19,23 +19,28 @@ namespace API_Priori.Controllers
             _userManager = userManager;
         }
 
+
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterUser([FromBody] LoginDTO loginDTO)
+        public async Task<ActionResult> Create(ClienteDTO user)
         {
-            var user = new ClienteDTO
+            if (!ModelState.IsValid)
             {
-                Email = loginDTO.Email,
-                Senha = loginDTO.Senha
-            };
+                return BadRequest();
+            }
+                ClienteDTO appUser = new ClienteDTO
+                {
+                    UserName = user.Nome,
+                    Email = user.Email
+                };
 
-            var result = await _userManager.CreateAsync(user, loginDTO.Senha);
+                IdentityResult result = await _userManager.CreateAsync(appUser, user.Senha);
 
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                if (!result.Succeeded)
+                    foreach (IdentityError error in result.Errors)
+                        ModelState.AddModelError("", error.Description);
 
-            await _signInManager.SignInAsync(user, false);
-            return Ok();
-        }
+                return Ok();
+            }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] ClienteDTO clienteDTO)
@@ -54,4 +59,5 @@ namespace API_Priori.Controllers
             }
         }
     }
-}
+ }
+

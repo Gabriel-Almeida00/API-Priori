@@ -1,6 +1,7 @@
 using API_Priori.Context;
 using API_Priori.DTOs;
 using API_Priori.DTOs.Mappings;
+using API_Priori.Models;
 using API_Priori.Repository;
 using API_Priori.RepositoryImpl;
 using AutoMapper;
@@ -35,9 +36,11 @@ string MySqlConnection = builder.Configuration.GetConnectionString("DefaultConne
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(MySqlConnection));
 
-builder.Services.AddIdentity<ClienteDTO>()
+
+builder.Services.AddIdentity<ClienteDTO, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
 
 var app = builder.Build();
 
