@@ -37,10 +37,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(MySqlConnection));
 
 
-builder.Services.AddIdentity<ClienteDTO, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-
 
 var app = builder.Build();
 

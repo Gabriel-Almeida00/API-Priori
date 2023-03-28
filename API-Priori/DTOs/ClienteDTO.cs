@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace API_Priori.DTOs
 {
-    public class ClienteDTO : IdentityUser
+    public class ClienteDTO 
     {
         public int ClienteId { get; set; }
 
